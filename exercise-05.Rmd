@@ -9,6 +9,12 @@ date: "2024-02-28"
 ```{r}
 library(tidyverse)
 library(dplyr)
+library(mosaic)
+library(radiant)
+library(sciplot)
+library(infer)
+library(tidylog)
+library(data.table)
 ```
 
 **Step 1**
@@ -23,7 +29,7 @@ f <- "https://raw.githubusercontent.com/difiore/ada-2024-datasets/main/IMDB-movi
 Now I am going to filter the dataset to include just movies from 1920 to 1979 and movies that are between 1 and 3 hours long, and add a new column that codes the startYear into a new variable, decade.
 
 ```{r}
-(s <- filter(d, runtimeMinutes >= 60 & runtimeMinutes <= 180, startYear >= 1920 & startYear <= 1979) |>
+(d <- filter(d, runtimeMinutes >= 60 & runtimeMinutes <= 180, startYear >= 1920 & startYear <= 1979) |>
   mutate(decade = case_when( #If...
   startYear >= 1970 & startYear <= 1979 ~ "70s",
   startYear >= 1960 & startYear <= 1969 ~ "60s",
@@ -35,10 +41,63 @@ Now I am going to filter the dataset to include just movies from 1920 to 1979 an
 )))
 ```
 
-**Step 3**
+**INCOMPLETE: Step 3** 
 Below, I am plotting histograms of the distribution of runtimeMinutes for each decade.
 
 ```{r}
 
 ```
 
+**Step 4**
+Now I am going to calculate the population mean and population standard deviation in runtimeMinutes for each decade and save the results in a new dataframe.
+
+```{r}
+(results <- d |> group_by(decade) |>
+  summarise(mean_runtimeMinutes=mean(runtimeMinutes),sdpop_runtimeMinutes=sdpop(runtimeMinutes)))
+```
+
+**Step 5**
+Here, I am drawing a single sample of 100 movies (without replacement) from each decade and calculating the single sample mean and single sample standard deviation in runtimeMinutes for each decade.
+```{r}
+s <- slice_sample(d,n=100,by=decade,replace=FALSE) #Drawing a single sample of 100 movies without replacement from each decade
+
+(sampleresults <- s |> group_by(decade) |>
+  summarise(sample_mean_runtimeMinutes=mean(runtimeMinutes),sd_runtimeMinutes=sd(runtimeMinutes))) #sample mean & sample standard deviation 
+
+```
+
+**INCOMPLETE: Step 6**
+Now, I will compare the above estimates to the actual population mean runtimeMinutes for each decade and to the calculated SE in the population mean for samples of size 100 based on the population standard deviation for each decade.
+```{r}
+
+```
+
+**Step 7**
+
+**Step 8**
+
+**Step 9**
+
+**Step 10**
+
+### Challenge 2
+
+**Step 1**
+
+**Step 2**
+
+**Step 3**
+
+**Step 4**
+
+**Step 5**
+
+**Step 6**
+
+**Step 7**
+
+**Step 8**
+
+**Step 9**
+
+**Step 10**
