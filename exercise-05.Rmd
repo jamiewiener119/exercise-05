@@ -41,11 +41,11 @@ Now I am going to filter the dataset to include just movies from 1920 to 1979 an
 )))
 ```
 
-**INCOMPLETE: Step 3** 
+**Step 3** 
 Below, I am plotting histograms of the distribution of runtimeMinutes for each decade.
 
 ```{r}
-
+(p <- ggplot(d,aes(x=runtimeMinutes))+ geom_histogram()+ facet_wrap(~decade))
 ```
 
 **Step 4**
@@ -72,25 +72,82 @@ Now, I will compare the above estimates to the actual population mean runtimeMin
 
 ```
 
-**Step 7**
+**ICOMPLETE Step 7**
 
-**Step 8**
+**INCOMPLETE Step 8**
 
-**Step 9**
+**INCOMPLETE Step 9**
 
-**Step 10**
+**INCOMPLETE Step 10**
 
 ### Challenge 2
 
 **Step 1**
+Now I'm loading the “zombies.csv” dataset as a “tibble” named z.
+```{r}
+file <- "https://raw.githubusercontent.com/difiore/ada-2024-datasets/main/zombies.csv"
+(z <- read_csv(file, col_names = TRUE))
+```
 
 **Step 2**
+Now, I'm calculating the population mean and standard deviation for each quantitative random variable in the dataset (height, weight, age, number of zombies killed, and years of education).
+```{r}
+(zresults <- z |> summarise(pop_mean_height=mean(height),sdpop_height=sdpop(height),pop_mean_weight=mean(weight),sdpop_weight=sdpop(weight),pop_mean_zombies_killed=mean(zombies_killed),sdpop_zombies_killed=sdpop(zombies_killed),pop_mean_years_of_education=mean(years_of_education),sdpop_years_of_education=sdpop(years_of_education)))
+```
 
 **Step 3**
+Using {ggplot}, I'm now making boxplots of each of these variables by gender.
+```{r}
+(height_plot <- ggplot(data = z, aes(x = gender, y = height)) +
+  geom_boxplot(na.rm = TRUE) +
+  theme(axis.text.x = element_text(angle = 90)) +
+  xlab("Gender") +
+  ylab("Height"))
+```
+```{r}
+(weight_plot <- ggplot(data = z, aes(x = gender, y = weight)) +
+  geom_boxplot(na.rm = TRUE) +
+  theme(axis.text.x = element_text(angle = 90)) +
+  xlab("Gender") +
+  ylab("Weight"))
+```
+```{r}
+(zombies_killed_plot <- ggplot(data = z, aes(x = gender, y = zombies_killed)) +
+  geom_boxplot(na.rm = TRUE) +
+  theme(axis.text.x = element_text(angle = 90)) +
+  xlab("Gender") +
+  ylab("Zombies Killed"))
+```
+```{r}
+(years_of_education_plot <- ggplot(data = z, aes(x = gender, y = years_of_education)) +
+  geom_boxplot(na.rm = TRUE) +
+  theme(axis.text.x = element_text(angle = 90)) +
+  xlab("Gender") +
+  ylab("Years of Education"))
+```
 
 **Step 4**
+Using {ggplot}, I'm making scatterplots of height and weight in relation to age.
+```{r}
+(height_scatter <- ggplot(data = z, aes(x = age, y = height,
+    color = factor(gender)))+ # build a plot object and color points by gender
+   xlab("Age") + 
+   ylab("Height")+
+   geom_point(na.rm = TRUE) +
+   theme(legend.position = "bottom", legend.title = element_blank()))
+```
+
+```{r}
+(weight_scatter <- ggplot(data = z, aes(x = age, y = weight,
+    color = factor(gender)))+ # build a plot object and color points by gender
+   xlab("Age") + 
+   ylab("Weight")+
+   geom_point(na.rm = TRUE) +
+   theme(legend.position = "bottom", legend.title = element_blank()))
+```
 
 **Step 5**
+
 
 **Step 6**
 
