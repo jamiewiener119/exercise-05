@@ -1,14 +1,17 @@
 ---
-title: "exercise-05"
+title: "Exercise 05"
 output: html_document
 date: "2024-02-28"
 ---
+
+### Challenge 1
 
 ```{r}
 library(tidyverse)
 library(dplyr)
 ```
 
+**Step 1**
 First, I'm loading in the “IMDB-movies.csv” dataset as a tibble.
 
 ```{r}
@@ -16,17 +19,26 @@ f <- "https://raw.githubusercontent.com/difiore/ada-2024-datasets/main/IMDB-movi
 (d <- read_csv(f, col_names = TRUE))
 ```
 
+**Step 2**
 Now I am going to filter the dataset to include just movies from 1920 to 1979 and movies that are between 1 and 3 hours long, and add a new column that codes the startYear into a new variable, decade.
 
 ```{r}
-d <- d|> mutate(decade = case_when( #If...
-  startYear >= 1970 ~ "70s",
-  startYear >= 1960 ~ "60s",
-  startYear >= 1950 ~ "50s",
-  startYear >= 1940 ~ "40s",
-  startYear >= 1930 ~ "30s",
-  startYear >= 1920 ~ "20s", 
+(s <- filter(d, runtimeMinutes >= 60 & runtimeMinutes <= 180, startYear >= 1920 & startYear <= 1979) |>
+  mutate(decade = case_when( #If...
+  startYear >= 1970 & startYear <= 1979 ~ "70s",
+  startYear >= 1960 & startYear <= 1969 ~ "60s",
+  startYear >= 1950 & startYear <= 1959 ~ "50s",
+  startYear >= 1940 & startYear <= 1949 ~ "40s",
+  startYear >= 1930 & startYear <= 1939 ~ "30s",
+  startYear >= 1920 & startYear <= 1929~ "20s", 
   TRUE ~ "NA"
-))
+)))
+```
+
+**Step 3**
+Below, I am plotting histograms of the distribution of runtimeMinutes for each decade.
+
+```{r}
+
 ```
 
