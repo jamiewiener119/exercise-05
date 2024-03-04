@@ -249,6 +249,16 @@ observed_q <- quantile(z$years_of_education,ppoints(z$years_of_education))
 The years of education does not appear to be drawn from a normal distribution.
 
 **INCOMPLETE Step 6**
+Sample ONE subset of 50 zombie apocalypse survivors (without replacement) from this population and calculate the mean and sample standard deviation for each variable.
+```{r}
+zs <- slice_sample(z,n=50,replace=FALSE) #Drawing a single sample of 50 zombie apocalypse survivors without replacement
+
+(zsampleresults <- zs |>
+  summarise(sample_mean_height=mean(zs$height),sd_height=sd(zs$height),sample_mean_weight=mean(zs$height),sd_weight=sd(zs$weight),sample_mean_zombies_killed=mean(zs$zombies_killed),sd_zombies_killed=sd(zs$zombies_killed),sample_mean_years_of_education=mean(zs$years_of_education),sd_years_of_education=sd(zs$years_of_education))) 
+```
+
+Now, I will estimate the standard error for each variable based on this one sample and use that to construct a theoretical 95% confidence interval for each mean.
+
 
 **INCOMPLETE Step 7**
 
