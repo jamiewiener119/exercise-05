@@ -73,12 +73,28 @@ Now, I will compare the above estimates to the actual population mean runtimeMin
 ```
 
 **ICOMPLETE Step 7**
+```{r}
+
+```
+
 
 **INCOMPLETE Step 8**
+```{r}
+
+```
+
 
 **INCOMPLETE Step 9**
+```{r}
+
+```
+
 
 **INCOMPLETE Step 10**
+```{r}
+
+```
+
 
 ### Challenge 2
 
@@ -146,15 +162,98 @@ Using {ggplot}, I'm making scatterplots of height and weight in relation to age.
    theme(legend.position = "bottom", legend.title = element_blank()))
 ```
 
-**Step 5**
+Looking at the above scatterplots, height and weight both appear to increase with age for both females and males. 
+
+**INCOMPLETE Step 5**
+Using histograms and Q-Q plots, I'm going to check whether each of the quantitative variables seem to be drawn from a normal distribution.
+
+First, height...
+```{r}
+height2 <- dnorm(z$height, mean(z$height), sdpop(z$height))
+
+(ggplot(data=z) +
+  geom_histogram(mapping=aes(x=height, y=..density..)) +
+  xlab("Height") +
+  ylab("Density") +
+  geom_line(mapping=aes(x=height, y=height2)))
+```
+
+```{r}
+q <- ppoints(length(z$height))
+theoretical_q <- qnorm(q)
+observed_q <- quantile(z$height,ppoints(z$height))
+(plot(theoretical_q, observed_q, main = "QQ Plot - Height", xlab = "Theoretical Quantiles", ylab = "Sample Quantiles"))
+```
+
+Height in this data set seems to be drawn from a normal distribution.
 
 
-**Step 6**
+Weight...
+```{r}
+weight2 <- dnorm(z$weight, mean(z$weight), sdpop(z$weight))
 
-**Step 7**
+(ggplot(data=z) +
+  geom_histogram(mapping=aes(x=weight, y=..density..)) +
+  xlab("Weight") +
+  ylab("Density") +
+  geom_line(mapping=aes(x=weight, y=weight2)))
 
-**Step 8**
+```
 
-**Step 9**
+```{r}
+q <- ppoints(length(z$weight))
+theoretical_q <- qnorm(q)
+observed_q <- quantile(z$weight,ppoints(z$weight))
+(plot(theoretical_q, observed_q, main = "QQ Plot - Weight", xlab = "Theoretical Quantiles", ylab = "Sample Quantiles"))
+```
 
-**Step 10**
+Weight in this dataset seems to be drawn from a normal distribution.
+
+
+Zombies killed...
+```{r}
+zombies_killed2 <- dnorm(z$zombies_killed, mean(z$zombies_killed), sdpop(z$zombies_killed))
+
+(ggplot(data=z) +
+  geom_histogram(mapping=aes(x=zombies_killed, y=..density..)) +
+  xlab("Zombies Killed") +
+  ylab("Density") +
+  geom_line(mapping=aes(x=zombies_killed, y=zombies_killed2)))
+```
+```{r}
+q <- ppoints(length(z$zombies_killed))
+theoretical_q <- qnorm(q)
+observed_q <- quantile(z$zombies_killed,ppoints(z$zombies_killed))
+(plot(theoretical_q, observed_q, main = "QQ Plot - Zombies Killed", xlab = "Theoretical Quantiles", ylab = "Sample Quantiles"))
+```
+
+The number of zombies killed does not appear to be drawn from a normal distribution.
+
+Years of education...
+```{r}
+years_of_education2 <- dnorm(z$years_of_education, mean(z$years_of_education), sdpop(z$years_of_education))
+
+(ggplot(data=z) +
+  geom_histogram(mapping=aes(x=years_of_education, y=..density..)) +
+  xlab("Years of Education") +
+  ylab("Density") +
+  geom_line(mapping=aes(x=years_of_education, y=years_of_education2)))
+```
+```{r}
+q <- ppoints(length(z$years_of_education))
+theoretical_q <- qnorm(q)
+observed_q <- quantile(z$years_of_education,ppoints(z$years_of_education))
+(plot(theoretical_q, observed_q, main = "QQ Plot - Years of Education", xlab = "Theoretical Quantiles", ylab = "Sample Quantiles"))
+```
+
+The years of education does not appear to be drawn from a normal distribution.
+
+**INCOMPLETE Step 6**
+
+**INCOMPLETE Step 7**
+
+**INCOMPLETE Step 8**
+
+**INCOMPLETE Step 9**
+
+**INCOMPLETE Step 10**
