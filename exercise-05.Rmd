@@ -36,7 +36,7 @@ Now I am going to filter the dataset to include just movies from 1920 to 1979 an
   startYear >= 1950 & startYear <= 1959 ~ "50s",
   startYear >= 1940 & startYear <= 1949 ~ "40s",
   startYear >= 1930 & startYear <= 1939 ~ "30s",
-  startYear >= 1920 & startYear <= 1929~ "20s", 
+  startYear >= 1920 & startYear <= 1929 ~ "20s", 
   TRUE ~ "NA"
 )))
 ```
@@ -66,31 +66,36 @@ s <- slice_sample(d,n=100,by=decade,replace=FALSE) #Drawing a single sample of 1
 
 ```
 
-**INCOMPLETE: Step 6**
-Now, I will compare the above estimates to the actual population mean runtimeMinutes for each decade and to the calculated SE in the population mean for samples of size 100 based on the population standard deviation for each decade.
+**Step 6**
+Now, I will calculate for each decade the standard error around the estimate of the population mean runtimeMinutes based on the standard deviation and sample size (n=100 movies) of this single sample.
 ```{r}
-
+(sampleresults <- s |> group_by(decade) |>
+  summarise(sample_mean_runtimeMinutes=mean(runtimeMinutes),sd_runtimeMinutes=sd(runtimeMinutes),se_runtimeMinutes=sd(runtimeMinutes)/sqrt(100))) #Now standard error by decade as well
 ```
 
 **ICOMPLETE Step 7**
+Now, I will compare these estimates to the actual population mean runtimeMinutes for each decade and to the calculated SE in the population mean for samples of size 100 based on the population standard deviation for each decade.
 ```{r}
 
 ```
 
 
 **INCOMPLETE Step 8**
+Here, I'm generate a sampling distribution of mean runtimeMinutes for each decade by [a] drawing 1000 random samples of 100 movies from each decade, without replacement, and, for each sample, [b] calculating the mean runtimeMinutes and the standard deviation in runtimeMinutes for each decade.
 ```{r}
 
 ```
 
 
 **INCOMPLETE Step 9**
+Now, I'm going to calculate the mean and the standard deviation of the sampling distribution of sample means for each decade and plot a histogram of the sampling distribution for each decade.
 ```{r}
 
 ```
 
 
 **INCOMPLETE Step 10**
+Lastly, I am comparing the standard error in runtimeMinutes for samples of size 100 from each decade [1] as estimated from my first sample of 100 movies, [2] as calculated from the known population standard deviations for each decade, and [3] as estimated from the sampling distribution of sample means for each decade.
 ```{r}
 
 ```
