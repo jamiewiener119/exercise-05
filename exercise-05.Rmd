@@ -73,31 +73,47 @@ Now, I will calculate for each decade the standard error around the estimate of 
   summarise(sample_mean_runtimeMinutes=mean(runtimeMinutes),sd_runtimeMinutes=sd(runtimeMinutes),se_runtimeMinutes=sd(runtimeMinutes)/sqrt(100))) #Now standard error by decade as well
 ```
 
-**ICOMPLETE Step 7**
+**Step 7**
 Now, I will compare these estimates to the actual population mean runtimeMinutes for each decade and to the calculated SE in the population mean for samples of size 100 based on the population standard deviation for each decade.
 ```{r}
-
+(comparemeans <- merge(sampleresults,results))
 ```
 
 
-**INCOMPLETE Step 8**
-Here, I'm generate a sampling distribution of mean runtimeMinutes for each decade by [a] drawing 1000 random samples of 100 movies from each decade, without replacement, and, for each sample, [b] calculating the mean runtimeMinutes and the standard deviation in runtimeMinutes for each decade.
+**Step 8**
+Here, I'm generating a sampling distribution of mean runtimeMinutes for each decade by [a] drawing 1000 random samples of 100 movies from each decade, without replacement, and, for each sample, [b] calculating the mean runtimeMinutes and the standard deviation in runtimeMinutes for each decade.
 ```{r}
-
+reps <- 1000
+samp_dist <- do(reps) * sample_n(group_by(d, decade), 100, replace = FALSE) #part a
+(samp_dist_results <- samp_dist |> group_by(decade) |>
+  summarise(sample_mean_runtimeMinutes=mean(runtimeMinutes),sd_runtimeMinutes=sd(runtimeMinutes))) #part b
 ```
 
-
-**INCOMPLETE Step 9**
-Now, I'm going to calculate the mean and the standard deviation of the sampling distribution of sample means for each decade and plot a histogram of the sampling distribution for each decade.
+**Step 9**
+Now, I'm going to calculate the mean and the standard deviation of the sampling distribution of sample means for each decade... 
 ```{r}
-
+(mean(samp_dist_results$sample_mean_runtimeMinutes))
+(sd(samp_dist_results$sd_runtimeMinutes))
 ```
 
+...and plot a histogram of the sampling distribution for each decade.
 
-**INCOMPLETE Step 10**
+```{r}
+(p2 <- ggplot(samp_dist,aes(x=runtimeMinutes))+ geom_histogram()+ facet_wrap(~decade) + xlab( "Samp Dist of Mean for Run Time (minutes)") + ylab("Count"))
+```
+Overall, the histograms for the sampling distribution for each decade seem to follow a normal distribution.
+
+**Step 10**
 Lastly, I am comparing the standard error in runtimeMinutes for samples of size 100 from each decade [1] as estimated from my first sample of 100 movies, [2] as calculated from the known population standard deviations for each decade, and [3] as estimated from the sampling distribution of sample means for each decade.
 ```{r}
-
+se_3 <- select(samp_dist_results,sd_runtimeMinutes)
+se_2 <- select(sampleresults,se_runtimeMinutes)
+se_1 <- d |> group_by(decade) |>
+  summarise(se_1=sd(runtimeMinutes)/5651)
+names(se_3)[names(se_3) == "sd_runtimeMinutes"] <- "se_3"
+names(se_2)[names(se_2) == "se_runtimeMinutes"] <- "se_2"
+se_2_3 <- merge(se_2,se_3)
+(merge(se_1,se_2_3))
 ```
 
 
@@ -169,7 +185,7 @@ Using {ggplot}, I'm making scatterplots of height and weight in relation to age.
 
 Looking at the above scatterplots, height and weight both appear to increase with age for both females and males. 
 
-**INCOMPLETE Step 5**
+**Step 5**
 Using histograms and Q-Q plots, I'm going to check whether each of the quantitative variables seem to be drawn from a normal distribution.
 
 First, height...
@@ -254,15 +270,19 @@ observed_q <- quantile(z$years_of_education,ppoints(z$years_of_education))
 The years of education does not appear to be drawn from a normal distribution.
 
 **INCOMPLETE Step 6**
-Sample ONE subset of 50 zombie apocalypse survivors (without replacement) from this population and calculate the mean and sample standard deviation for each variable.
+Here, I'm sampling one subset of 50 zombie apocalypse survivors (without replacement) from this population and calculatinng the mean and sample standard deviation for each variable.
 ```{r}
 zs <- slice_sample(z,n=50,replace=FALSE) #Drawing a single sample of 50 zombie apocalypse survivors without replacement
 
 (zsampleresults <- zs |>
-  summarise(sample_mean_height=mean(zs$height),sd_height=sd(zs$height),sample_mean_weight=mean(zs$height),sd_weight=sd(zs$weight),sample_mean_zombies_killed=mean(zs$zombies_killed),sd_zombies_killed=sd(zs$zombies_killed),sample_mean_years_of_education=mean(zs$years_of_education),sd_years_of_education=sd(zs$years_of_education))) 
+  summarise(sample_mean_height=mean(height),sd_height=sd(height),sample_mean_weight=mean(height),sd_weight=sd(weight),sample_mean_zombies_killed=mean(zombies_killed),sd_zombies_killed=sd(zombies_killed),sample_mean_years_of_education=mean(years_of_education),sd_years_of_education=sd(years_of_education))) 
 ```
 
 Now, I will estimate the standard error for each variable based on this one sample and use that to construct a theoretical 95% confidence interval for each mean.
+
+```{r}
+
+```
 
 
 **INCOMPLETE Step 7**
